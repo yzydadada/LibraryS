@@ -29,6 +29,9 @@ class User(UserMixin,db.Model):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    image_name = db.Column(db.String(30), index=True)
+    user_image = db.Column(db.String(2048), index=True)
+
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
@@ -92,6 +95,8 @@ class Post(db.Model):
 
 class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    image_name = db.Column(db.String(30), index=True)
+    bookimage = db.Column(db.String(2048), index=True)
     bookname = db.Column(db.String(64), index=True, unique=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 

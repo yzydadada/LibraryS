@@ -38,20 +38,22 @@ Welcome to Library
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Microblog</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">LibraryS</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
                 <li><a href="{{ url_for('main.explore') }}">Explore</a></li>
-                <li><a href="{{ url_for('main.index') }}">Books</a></li>
+                <li><a href="{{ url_for('book.books') }}">Books</a></li>
                 <li><a href="{{ url_for('studyroom.rooms') }}">Study Room</a></li>
+                {% if current_user.id==1%}
                 <li><a href="{{ url_for('book.books') }}">图书管理</a></li>
                 <li><a href="{{ url_for('main.index') }}">借阅管理</a></li>
                 <li><a href="{{ url_for('main.userS') }}">读者管理</a></li>
                 <li><a href="{{ url_for('main.index') }}">工作人员管理</a></li>
-                <li><a href="{{ url_for('main.index') }}">说明</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('main.illustrate') }}">说明</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

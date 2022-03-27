@@ -3,7 +3,7 @@
 
 {% block app_content %}
 <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
-{% if form %}
+{% if form and current_user.id==1%}
 {{ wtf.quick_form(form) }}
 <br>
 {% endif %}
@@ -12,8 +12,10 @@
 <table class="table table-hover">
     <tr>
         <td width="70px">
-            <a href="{{ url_for('book.books', bookname=post.bookname) }}">
+            <a href="{{ url_for('book.books', bookname=post.bookname,bookimage=post.bookimage) }}">
+                <img src="{{post.bookimage}}" height="100" width="100"/></p>
                 {{ post.bookname }}
+
 
             </a>
         </td>

@@ -108,4 +108,10 @@ def userS():
 
     posts = User.query.all()
 
-    return render_template('userS.html', title=_('Explore'),posts=posts)
+    return render_template('userS.html', title=_('user'),posts=posts)
+
+@bp.route('/illustrate')
+@login_required
+def illustrate():
+
+    return render_template('illustrate.html', title=_('illustrate'))
