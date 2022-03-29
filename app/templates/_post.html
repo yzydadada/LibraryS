@@ -2,7 +2,7 @@
     <tr>
         <td width="70px">
             <a href="{{ url_for('main.user', username=post.author.username) }}">
-                <img src="{{ post.author.avatar(70) }}" />
+                <img src="{{ post.author.user_image }}" />
             </a>
         </td>
         <td>
@@ -14,6 +14,13 @@
             {{ _('%(username)s said %(when)s', username=user_link, when=moment(post.timestamp).fromNow()) }}
             <br>
             <span id="post{{ post.id }}">{{ post.body }}</span>
+
+            {% if current_user.id==1%}
+            <a href="{{ url_for('main.delpost',id=post.id) }}">
+                <h5>del</h5>
+            </a>
+            {% endif %}
+
             {% if post.language and post.language != g.locale %}
             <br><br>
             <span id="translation{{ post.id }}">

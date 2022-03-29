@@ -9,8 +9,20 @@
 {% endif %}
 
 {% for post in posts %}
-{% include '_user.html' %}
-{% endfor %}
+<table class="table table-hover">
+    <tr>
+        <td width="70px">
+            {% include '_user.html' %}
+
+            {% if current_user.id==1%}
+            <a href="{{ url_for('main.deluser',id=post.id) }}">
+                <h5>del</h5>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+</table>
 
 <nav aria-label="...">
     <ul class="pager">

@@ -30,3 +30,13 @@ def books():
     next_url = url_for('book.books', page=posts.next_num) if posts.has_next else None
     prev_url = url_for('book.books', page=posts.prev_num) if posts.has_prev else None
     return render_template('book/books.html', title=_('Books'),form=form,posts=posts.items, next_url=next_url,prev_url=prev_url)
+
+@bp.route('/delbook/<id>')
+@login_required
+def delbook(id):
+
+    res = Books.query.filter_by(id=id).first()
+    # res = db.session.query(WtMenu).filter(WtMenu.menuid.in_(menuids)).delete(synchronize_session=False)
+    db.session.delete(res)
+    db.session.commit()
+    return redirect(url_for('book.books'))

@@ -23,6 +23,7 @@ followers = db.Table(
 
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.String(24), index=True, unique=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
@@ -31,11 +32,8 @@ class User(UserMixin,db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     image_name = db.Column(db.String(30), index=True)
     user_image = db.Column(db.String(2048), index=True)
+    facedata = db.Column(db.String(2048), index=True)
 
-    def avatar(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-            digest, size)
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

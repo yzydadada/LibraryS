@@ -13,16 +13,19 @@
     <tr>
         <td width="70px">
             <a href="{{ url_for('book.books', bookname=post.bookname,bookimage=post.bookimage) }}">
-                <img src="{{post.bookimage}}" height="100" width="100"/></p>
-                {{ post.bookname }}
-
-
+                <img src="{{post.bookimage}}" height="100" width="100"/>
+               {{ post.bookname }}
             </a>
+            <br>
+            {% if form and current_user.id==1%}
+            <a href="{{ url_for('book.delbook',id=post.id) }}">
+                <h1>del</h1>
+            </a>
+            {% endif %}
         </td>
     </tr>
 </table>
 {% endfor %}
-
 <nav aria-label="...">
     <ul class="pager">
         <li class="previous{% if not prev_url %} disabled{% endif %}">
@@ -38,5 +41,6 @@
         </li>
     </ul>
 </nav>
+
 
 {% endblock %}

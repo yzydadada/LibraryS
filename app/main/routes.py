@@ -1,3 +1,4 @@
+
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, current_app
 from flask_login import current_user, login_required
@@ -115,3 +116,27 @@ def userS():
 def illustrate():
 
     return render_template('illustrate.html', title=_('illustrate'))
+
+
+@bp.route('/deluser/<id>')
+@login_required
+def deluser(id):
+
+    res = User.query.filter_by(id=id).first()
+    # res = db.session.query(WtMenu).filter(WtMenu.menuid.in_(menuids)).delete(synchronize_session=False)
+    if int(id)>1:
+        db.session.delete(res)
+        db.session.commit()
+    else:
+        print(flash('can not del'))
+    return redirect(url_for('main.userS'))
+
+@bp.route('/delpost/<id>')
+@login_required
+def delpost(id):
+
+    res = Post.query.filter_by(id=id).first()
+    # res = db.session.query(WtMenu).filter(WtMenu.menuid.in_(menuids)).delete(synchronize_session=False)
+    db.session.delete(res)
+    db.session.commit()
+    return redirect(url_for('main.explore'))
