@@ -1,10 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
+from flask_wtf.file import FileRequired, FileAllowed
+from wtforms import StringField, SubmitField, TextAreaField, FileField
 from wtforms.validators import ValidationError, DataRequired, Length
 from flask_babel import _, lazy_gettext as _l
 from app.models import User
 
 class EditProfileForm(FlaskForm):
+    user_image = FileField(_l('user_image'),validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'])])
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About me'),
                              validators=[Length(min=0, max=140)])

@@ -7,3 +7,6 @@ from flask_babel import _, lazy_gettext as _l
 class addroomForm(FlaskForm):
     roomname = StringField(_l('roomname'), validators=[DataRequired()])
     submit = SubmitField(_l('add'))
+class addseatForm(FlaskForm):
+    seatid = StringField(_l('seatid'), validators=[DataRequired()])
+    submit = SubmitField(_l('add'))

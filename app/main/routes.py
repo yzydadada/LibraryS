@@ -9,6 +9,7 @@ from app import db
 from app.main.forms import EditProfileForm, PostForm
 from app.models import User, Post
 from app.main import bp
+from config import basedir
 
 @bp.before_app_request
 def before_request():
@@ -62,12 +63,20 @@ def user(username):
 def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
+        current_user.user_image = request.files.get('user_image')
+        path = basedir+"/app/static/photo/"
+        file_path = path+ current_user.user_image.filename
+        file="/static/photo/"+ current_user.user_image.filename
+        current_user.user_image.save(file_path)
+        current_user.image_name = current_user.username
+        current_user.user_image = file
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.edit_profile'))
     elif request.method == 'GET':
+        current_user.user_image = form.user_image.data
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title=_('Edit Profile'), form=form)

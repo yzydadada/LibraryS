@@ -1,9 +1,12 @@
+
+
+
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
 <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
-{% if form and current_user.id==1%}
+{% if form %}
 {{ wtf.quick_form(form) }}
 <br>
 {% endif %}
@@ -12,17 +15,25 @@
 <table class="table table-hover">
     <tr>
         <td width="70px">
-            <a href="{{ url_for('studyroom.seatS', roomname=post.roomname) }}">
-                {{ post.roomname }}
+            <table class="table table-hover">
+                <tr>
+                    <td width="70px">
+                        <a href="{{ url_for('studyroom.seatS', seatid=post.seatid) }}">
+                            {{ post.seatid }}
+                        </a>
+                    </td>
+                </tr>
+            </table>
 
+            {% if current_user.id==1%}
+            <a href="{{ url_for('main.deluser',id=post.id) }}">
+                <h5>del</h5>
             </a>
-            <a href="{{ url_for('studyroom.addseat', roomname=post.roomname) }}">添加座位
-
-            </a>
+            {% endif %}
+            {% endfor %}
         </td>
     </tr>
 </table>
-{% endfor %}
 
 <nav aria-label="...">
     <ul class="pager">
