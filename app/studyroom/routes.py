@@ -37,22 +37,40 @@ def rooms():
 @login_required
 def addseat(roomname):
     id=Studyrooms.query.filter_by(roomname=roomname).first()
-
     form = addseatForm()
     if form.validate_on_submit():
         post = seats(seatid=form.seatid.data,state=0, use=current_user,thein=id)
         db.session.add(post)
         db.session.commit()
-    page = request.args.get('page', 1, type=int)
-    posts = current_user.followed_posts().paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.index', page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('main.index', page=posts.prev_num) if posts.has_prev else None
-    return render_template('studyroom/addseat.html', title=_('SEATS'), form=form,posts=posts.items, next_url=next_url,prev_url=prev_url)
+    return render_template('studyroom/rooms.html', title=_('AddSEATS'), form=form)
 
 @bp.route('/seatS/<roomname>/',methods=['GET', 'POST'])
 @login_required
 def seatS(roomname):
     id=Studyrooms.query.filter_by(roomname=roomname).first()
-    posts = seats.query.filter_by(room_id=id).first()
-
+    posts = seats.query.filter_by(room_id=id.id)
     return render_template('studyroom/seats.html', title=_('SEATS'),posts=posts)
+
+@bp.route('/delseat/<id>')
+@login_required
+def delseat(id):
+
+
+    res = seats.query.filter_by(id=id).first()
+    # res = db.session.query(WtMenu).filter(WtMenu.menuid.in_(menuids)).delete(synchronize_session=False)
+    db.session.delete(res)
+    db.session.commit()
+    return redirect(url_for('studyroom.rooms'))
+
+@bp.route('/upstate/<id>')
+@login_required
+def upstate(id):
+    seat=seats.query.filter_by(id=id).first()
+    if seat.state <3:
+        seats.query.filter(seats.id == id).update({'state': seats.state + 1,'user_id':current_user.id})
+        db.session.commit()
+    else:
+        seats.query.filter(seats.id == id).update({'state':0,'user_id':current_user.id})
+        db.session.commit()
+
+    return redirect(url_for('studyroom.rooms'))

@@ -15,7 +15,7 @@
             <br>
             <span id="post{{ post.id }}">{{ post.body }}</span>
 
-            {% if current_user.id==1%}
+            {% if current_user.id==1 or post.user_id==current_user.id%}
             <a href="{{ url_for('main.delpost',id=post.id) }}">
                 <h5>del</h5>
             </a>

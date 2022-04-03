@@ -111,8 +111,8 @@ class Studyrooms(db.Model):
 
 class seats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    seatid = db.Column(db.String(64), index=True, unique=True)
-    state =db.Column(db.Integer,    index=True, unique=True)
+    seatid = db.Column(db.String(64), index=True)
+    state =db.Column(db.Integer,   index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     room_id = db.Column(db.Integer, db.ForeignKey('studyrooms.id'))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

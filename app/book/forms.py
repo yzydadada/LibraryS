@@ -9,3 +9,7 @@ class addbookForm(FlaskForm):
     image = FileField(_l('bookimage'),validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'])])
     bookname = StringField(_l('bookname'), validators=[DataRequired()])
     submit = SubmitField(_l('add'))
+
+class BooksSearchForm(FlaskForm):
+    post = TextAreaField(_l('Search something'), validators=[DataRequired()])
+    submit = SubmitField(_l('Search'))

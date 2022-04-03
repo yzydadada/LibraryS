@@ -16,9 +16,11 @@
                 {{ post.roomname }}
 
             </a>
+            {% if current_user.id==1%}
             <a href="{{ url_for('studyroom.addseat', roomname=post.roomname) }}">添加座位
 
             </a>
+            {% endif %}
         </td>
     </tr>
 </table>

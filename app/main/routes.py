@@ -38,14 +38,19 @@ def index():
     prev_url = url_for('main.index', page=posts.prev_num) if posts.has_prev else None
     return render_template('index.html', title=_('Home'), form=form,posts=posts.items, next_url=next_url,prev_url=prev_url)
 
-@bp.route('/explore')
+@bp.route('/explore',methods=['GET', 'POST'])
 @login_required
 def explore():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.explore', page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('main.explore', page=posts.prev_num) if posts.has_prev else None
-    return render_template('index.html', title=_('Explore'),posts=posts.items, next_url=next_url,prev_url=prev_url)
+    form=PostSearchForm()
+    if form.validate_on_submit():
+        posts = Post.query.filter(Post.body.like("%" + str(form.post.data) + "%") if form.post is not None else "").all()
+        return render_template('index.html', title=_(str(form.post.data)),posts=posts)
+    else:
+        page = request.args.get('page', 1, type=int)
+        posts = Post.query.order_by(Post.timestamp.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+        next_url = url_for('main.explore', page=posts.next_num) if posts.has_next else None
+        prev_url = url_for('main.explore', page=posts.prev_num) if posts.has_prev else None
+        return render_template('index.html', title=_('Explore'),posts=posts.items,form=form, next_url=next_url,prev_url=prev_url)
 
 @bp.route('/user/<username>')
 @login_required

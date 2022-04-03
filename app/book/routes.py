@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 
 from app import db
-from app.book.forms import addbookForm
+from app.book.forms import addbookForm,BooksSearchForm
 from app.models import User, Post, Books
 from app.book import bp
 from config import basedir
@@ -40,3 +40,11 @@ def delbook(id):
     db.session.delete(res)
     db.session.commit()
     return redirect(url_for('book.books'))
+
+@bp.route('/Searchbooks' ,methods=['GET', 'POST'])
+@login_required
+def Searchbooks():
+
+    post=request.form.get('post')
+    posts = Books.query.filter(Books.bookname.like("%" + post + "%") if post is not None else "").all()
+    return render_template('book/books.html', title=_(str(post)),posts=posts)

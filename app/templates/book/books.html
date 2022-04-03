@@ -8,6 +8,13 @@
 <br>
 {% endif %}
 
+    <form  method="post" action="{{ url_for('book.Searchbooks') }}" name="search">
+        <div class="form-group mx-sm-3 mb-2">
+            <input name="post" class="form-control"  value="" type="text">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2" value="">search</button>
+    </form>
+
 {% for post in posts %}
 <table class="table table-hover">
     <tr>
@@ -19,7 +26,7 @@
             <br>
             {% if form and current_user.id==1%}
             <a href="{{ url_for('book.delbook',id=post.id) }}">
-                <h1>del</h1>
+                <h5>del</h5>
             </a>
             {% endif %}
         </td>
