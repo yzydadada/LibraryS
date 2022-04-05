@@ -39,7 +39,7 @@ def addseat(roomname):
     id=Studyrooms.query.filter_by(roomname=roomname).first()
     form = addseatForm()
     if form.validate_on_submit():
-        post = seats(seatid=form.seatid.data,state=0, use=current_user,thein=id)
+        post = seats(seatid=form.seatid.data,state=0,thein=id)
         db.session.add(post)
         db.session.commit()
     return render_template('studyroom/rooms.html', title=_('AddSEATS'), form=form)

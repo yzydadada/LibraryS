@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 import app.main.forms
 from app import db
-from app.main.forms import EditProfileForm, PostForm
+from app.main.forms import EditProfileForm, PostForm,PostSearchForm
 from app.models import User, Post
 from app.main import bp
 from config import basedir

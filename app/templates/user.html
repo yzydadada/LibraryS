@@ -19,8 +19,14 @@
             <p>
                 <a href="{{ url_for('main.edit_profile') }}">Edit your profile</a>
             </p>
+            <a href="{{ url_for('auth.getface',userid=user.userid) }}">get face</a><br>
+
+            <a href="{{ url_for('auth.face',userid=user.userid) }}">sign in</a>
             {% elif not current_user.is_following(user) %}
             <p>
+
+
+
             <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
                 {{ form.hidden_tag() }}
                 {{ form.submit(value='Follow') }}

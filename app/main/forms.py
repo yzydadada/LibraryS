@@ -29,3 +29,7 @@ class PostForm(FlaskForm):
 class usernameForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
+
+class PostSearchForm(FlaskForm):
+    post = TextAreaField(_l('Search something'), validators=[DataRequired()])
+    submit = SubmitField(_l('Search'))
