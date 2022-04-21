@@ -28,6 +28,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     seats= db.relationship('seats', backref='use', lazy='dynamic')
+    borrowing= db.relationship('borrowing', backref='borrowinger', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     image_name = db.Column(db.String(30), index=True)
@@ -96,14 +97,22 @@ class Books(db.Model):
     image_name = db.Column(db.String(30), index=True)
     bookimage = db.Column(db.String(2048), index=True)
     bookname = db.Column(db.String(64), index=True, unique=True)
+    bookauth = db.Column(db.String(256), index=True)
+    booktype = db.Column(db.String(256), index=True)
+    bookpath = db.Column(db.String(256), index=True)
+    bookinfo = db.Column(db.String(256), index=True)
+    star = db.Column(db.Integer)
+    borrowing= db.relationship('borrowing', backref='borrowinged', lazy='dynamic')
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
+    idate = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    odate = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     def __repr__(self):
         return '<Books {}'.format(self.bookname)
 
 class Studyrooms(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     roomname = db.Column(db.String(64), index=True, unique=True)
+    roominfo = db.Column(db.String(64), index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     seats= db.relationship('seats', backref='thein', lazy='dynamic')
     def __repr__(self):
@@ -116,6 +125,19 @@ class seats(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     room_id = db.Column(db.Integer, db.ForeignKey('studyrooms.id'))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
+    outtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    backtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    endtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     def __repr__(self):
         return '<seats {}'.format(self.state)
+
+class borrowing(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+    borrowinginfo = db.Column(db.String(64), index=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    idate = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    odate = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    def __repr__(self):
+        return '<borrowing {}'.format(self.borrowinginfo)

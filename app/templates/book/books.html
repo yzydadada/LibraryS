@@ -29,6 +29,9 @@
                 <h5>del</h5>
             </a>
             {% endif %}
+            <a href="{{ url_for('book.outbook',id=post.id) }}">
+            <h5>borrowing</h5>
+        </a>
         </td>
     </tr>
 </table>

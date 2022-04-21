@@ -113,6 +113,7 @@ def getface(userid):
     cap.release() # 释放摄像头
     cv2.destroyAllWindows()# 释放并销毁窗口
     os.system('python facenet-retinaface-pytorch-main/encoding.py')
+    flash('face ok')
     return render_template('index.html')
 
 @bp.route('/face/<userid>', methods=['GET', 'POST'])
@@ -126,6 +127,7 @@ def face(userid):
     if tf==1:
         seats.query.filter(seats.user_id == user.id).update({'state': seats.state + 1})
         db.session.commit()
+        flash('state change')
     else:
         flash('face F')
     return render_template('index.html')

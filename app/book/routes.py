@@ -1,11 +1,11 @@
 from PIL import ImageFile
-from flask import render_template, redirect, url_for, current_app,request
+from flask import render_template, redirect, url_for, current_app,request,flash
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
-
+import sys
 from app import db
 from app.book.forms import addbookForm,BooksSearchForm
-from app.models import User, Post, Books
+from app.models import User, Post, Books, borrowing
 from app.book import bp
 from config import basedir
 
@@ -48,3 +48,60 @@ def Searchbooks():
     post=request.form.get('post')
     posts = Books.query.filter(Books.bookname.like("%" + post + "%") if post is not None else "").all()
     return render_template('book/books.html', title=_(str(post)),posts=posts)
+
+@bp.route('/outbook/<id>')
+@login_required
+def outbook(id):
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+    user = User.query.filter_by(id=current_user.id).first()
+    from predict import facex
+    tf = facex(user.userid)
+    if tf == 1:
+        res = borrowing(user_id=current_user.id, book_id=id)
+        db.session.add(res)
+        db.session.commit()
+        flash('out ok')
+    else:
+        flash('face F')
+
+
+    return redirect(url_for('book.books'))
+
+@bp.route('/inbook/<id>')
+@login_required
+def inbook(id):
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+    user = User.query.filter_by(id=current_user.id).first()
+    from predict import facex
+    tf = facex(user.userid)
+    if tf == 1:
+        res = borrowing.query.filter_by(id=id).first()
+        db.session.delete(res)
+        db.session.commit()
+        flash('back ok')
+    else:
+        flash('face F')
+    return redirect(url_for('book.borrowingS'))
+
+@bp.route('/userinbook')
+@login_required
+def userinbook():
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+    from predict import facex
+    tf = facex(current_user.userid)
+    if tf == 1:
+        res = borrowing.query.filter_by(user_id=current_user.id).first()
+        db.session.delete(res)
+        db.session.commit()
+        flash('back ok')
+    else:
+        flash('face F')
+    return redirect(url_for('book.borrowingS'))
+
+@bp.route('/borrowingS')
+@login_required
+def borrowingS():
+
+    posts = borrowing.query.all()
+
+    return render_template('book/borrowingS.html', title=_('borrowing'),posts=posts)

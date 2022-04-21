@@ -49,7 +49,7 @@ Welcome to Library
                 <li><a href="{{ url_for('studyroom.rooms') }}">Study Room</a></li>
                 {% if current_user.id==1%}
                 <li><a href="{{ url_for('book.books') }}">图书管理</a></li>
-                <li><a href="{{ url_for('main.index') }}">借阅管理</a></li>
+                <li><a href="{{ url_for('book.borrowingS') }}">借阅管理</a></li>
                 <li><a href="{{ url_for('main.userS') }}">读者管理</a></li>
                 {% endif %}
                 <li><a href="{{ url_for('main.illustrate') }}">说明</a></li>
