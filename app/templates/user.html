@@ -14,15 +14,15 @@
             <p>Last seen on:{{ moment(user.last_seen).format('LLL') }}</p>
             {% endif %}
 
-            <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p>
+            <p>{{ user.followers.count() }} {{ _('followers') }}, {{ user.followed.count() }} {{ _('following') }}.</p>
             {% if user == current_user %}
             <p>
-                <a href="{{ url_for('main.edit_profile') }}">Edit your profile</a>
+                <a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a>
             </p>
-            <a href="{{ url_for('auth.getface',userid=user.userid) }}">get face</a><br>
+            <a href="{{ url_for('auth.getface',userid=user.userid) }}">{{ _('get face') }}</a><br>
 
-            <a href="{{ url_for('auth.face',userid=user.userid) }}">sign in</a><br>
-            <a href="{{ url_for('book.userinbook') }}">book return</a>
+            <a href="{{ url_for('auth.face',userid=user.userid) }}">{{ _('sign in') }}</a><br>
+            <a href="{{ url_for('book.userinbook') }}">{{ _('book return') }}</a>
             {% elif not current_user.is_following(user) %}
             <p>
 

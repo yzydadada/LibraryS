@@ -12,7 +12,7 @@
         <div class="form-group mx-sm-3 mb-2">
             <input name="post" class="form-control"  value="" type="text">
         </div>
-        <button type="submit" class="btn btn-primary mb-2" value="">search</button>
+        <button type="submit" class="btn btn-primary mb-2" value="">{{ _('search') }}</button>
     </form>
 
 {% for post in posts %}
@@ -26,11 +26,11 @@
             <br>
             {% if form and current_user.id==1%}
             <a href="{{ url_for('book.delbook',id=post.id) }}">
-                <h5>del</h5>
+                <h5>{{ _('del') }}</h5>
             </a>
             {% endif %}
             <a href="{{ url_for('book.outbook',id=post.id) }}">
-            <h5>borrowing</h5>
+            <h5>{{ _('borrowing') }}</h5>
         </a>
         </td>
     </tr>

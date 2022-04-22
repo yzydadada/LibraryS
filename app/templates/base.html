@@ -43,24 +43,24 @@ Welcome to Library
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                <li><a href="{{ url_for('main.explore') }}">Explore</a></li>
-                <li><a href="{{ url_for('book.books') }}">Books</a></li>
-                <li><a href="{{ url_for('studyroom.rooms') }}">Study Room</a></li>
+                <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
+                <li><a href="{{ url_for('main.explore') }}">{{ _('Explore') }}</a></li>
+                <li><a href="{{ url_for('book.books') }}">{{ _('Books') }}</a></li>
+                <li><a href="{{ url_for('studyroom.rooms') }}">{{ _('Study Room') }}</a></li>
                 {% if current_user.id==1%}
                 <li><a href="{{ url_for('book.books') }}">图书管理</a></li>
                 <li><a href="{{ url_for('book.borrowingS') }}">借阅管理</a></li>
                 <li><a href="{{ url_for('main.userS') }}">读者管理</a></li>
                 {% endif %}
-                <li><a href="{{ url_for('main.illustrate') }}">说明</a></li>
+                <li><a href="{{ url_for('main.illustrate') }}">{{ _('illustrate') }}</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_anonymous %}
-                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
                 {% else %}
-                <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
-                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                <li><a href="{{ url_for('main.user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
                 {% endif %}
             </ul>
         </div>

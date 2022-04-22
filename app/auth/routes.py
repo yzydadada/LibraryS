@@ -7,7 +7,7 @@ from flask_babel import _
 from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm, \
-    ResetPasswordRequestForm, ResetPasswordForm
+    ResetPasswordRequestForm, ResetPasswordForm,oldPasswordRequestForm
 from app.models import User, seats
 from app.auth.email import send_password_reset_email
 import os
@@ -131,3 +131,15 @@ def face(userid):
     else:
         flash('face F')
     return render_template('index.html')
+
+@bp.route('/Changepassword/<userid>', methods=['GET', 'POST'])
+def Changepassword(userid):
+    form = oldPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(userid=userid).first()
+        flash(_('yes'))
+        if user is None or not user.check_password(form.password.data):
+            flash(_('Invalid username or password'))
+            return redirect(url_for('auth.login'))
+    return render_template('auth/cp.html',
+                           title=_('cp'), form=form)

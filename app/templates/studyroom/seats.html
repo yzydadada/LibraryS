@@ -32,7 +32,7 @@
 
             {% if current_user.id==1%}
                 <a href="{{ url_for('studyroom.delseat', id=post.id) }}">
-                                <h5>del</h5>
+                                <h5>{{ _('del') }}</h5>
                 </a>
             {% endif %}
             {% endfor %}
