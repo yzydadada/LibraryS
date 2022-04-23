@@ -60,7 +60,7 @@ def outbook(id):
         res = borrowing(user_id=current_user.id, book_id=id)
         db.session.add(res)
         db.session.commit()
-        flash('out ok')
+        flash('借书成功')
     else:
         flash('face F')
 
@@ -78,7 +78,7 @@ def inbook(id):
         res = borrowing.query.filter_by(id=id).first()
         db.session.delete(res)
         db.session.commit()
-        flash('back ok')
+        flash('还书成功')
     else:
         flash('face F')
     return redirect(url_for('book.borrowingS'))
@@ -93,7 +93,7 @@ def userinbook():
         res = borrowing.query.filter_by(user_id=current_user.id).first()
         db.session.delete(res)
         db.session.commit()
-        flash('back ok')
+        flash('还书成功')
     else:
         flash('face F')
     return redirect(url_for('book.borrowingS'))

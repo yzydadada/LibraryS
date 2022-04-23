@@ -66,7 +66,7 @@ def delseat(id):
 @login_required
 def upstate(id):
     seat=seats.query.filter_by(id=id).first()
-    if seat.state <3:
+    if seat.state <2:
         seats.query.filter(seats.id == id).update({'state': seats.state + 1,'user_id':current_user.id})
         db.session.commit()
     else:

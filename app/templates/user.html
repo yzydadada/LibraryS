@@ -22,6 +22,9 @@
             <a href="{{ url_for('auth.getface',userid=user.userid) }}">{{ _('get face') }}</a><br>
 
             <a href="{{ url_for('auth.face',userid=user.userid) }}">{{ _('sign in') }}</a><br>
+            <a href="{{ url_for('auth.time',userid=user.userid) }}">暂离</a><br>
+            <a href="{{ url_for('auth.back',userid=user.userid) }}">回来</a><br>
+            <a href="{{ url_for('auth.out',userid=user.userid) }}">退座</a><br>
             <a href="{{ url_for('book.userinbook') }}">{{ _('book return') }}</a>
             {% elif not current_user.is_following(user) %}
             <p>

@@ -125,9 +125,16 @@ def face(userid):
     tf=facex(userid)
     user = User.query.filter_by(userid=userid).first()
     if tf==1:
-        seats.query.filter(seats.user_id == user.id).update({'state': seats.state + 1})
-        db.session.commit()
-        flash('state change')
+        seat= seats.query.filter_by(user_id=user.id).first()
+        if seat.state < 2:
+            seats.query.filter(seats.user_id == user.id).update({'state': seats.state + 1, 'user_id': current_user.id})
+            db.session.commit()
+            flash('已签到')
+        else:
+            flash('请勿重复签到')
+        # seats.query.filter(seats.user_id == user.id).update({'state': seats.state + 1})
+        # db.session.commit()
+
     else:
         flash('face F')
     return render_template('index.html')
@@ -143,3 +150,52 @@ def Changepassword(userid):
             return redirect(url_for('auth.login'))
     return render_template('auth/cp.html',
                            title=_('cp'), form=form)
+
+@bp.route('/time/<userid>', methods=['GET', 'POST'])
+def time(userid):
+
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+
+    from predict import facex
+    tf=facex(userid)
+    user = User.query.filter_by(userid=userid).first()
+    if tf==1:
+        seats.query.filter(seats.user_id == user.id).update({'state':3})
+        db.session.commit()
+        flash('已离开')
+    else:
+        flash('face F')
+    return render_template('index.html')
+
+
+@bp.route('/back/<userid>', methods=['GET', 'POST'])
+def back(userid):
+
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+
+    from predict import facex
+    tf=facex(userid)
+    user = User.query.filter_by(userid=userid).first()
+    if tf==1:
+        seats.query.filter(seats.user_id == user.id).update({'state':2})
+        db.session.commit()
+        flash('欢迎回来')
+    else:
+        flash('face F')
+    return render_template('index.html')
+
+@bp.route('/out/<userid>', methods=['GET', 'POST'])
+def out(userid):
+
+    sys.path.append('C:/Users/YZY/PycharmProjects/LibraryS/facenet-retinaface-pytorch-main')
+
+    from predict import facex
+    tf=facex(userid)
+    user = User.query.filter_by(userid=userid).first()
+    if tf==1:
+        seats.query.filter(seats.user_id == user.id).update({'state':0})
+        db.session.commit()
+        flash('已退座')
+    else:
+        flash('face F')
+    return render_template('index.html')
